@@ -301,6 +301,8 @@ __pycache__/
 # External Python Tools
 *.egg-info/
 .pytest_cache/
+.mypy_cache/
+dist/
 
 # Cake - Uncomment if you are using it
 # tools/**
