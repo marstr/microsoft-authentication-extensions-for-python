@@ -18,6 +18,7 @@ setup(
     install_requires=[
         'msal~=0.4',
         'portalocker~=1.0',
+        'PyGObject~=3.32;platform_system=="linux"',
     ],
     tests_require=['pytest'],
 )

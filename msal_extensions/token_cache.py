@@ -11,6 +11,8 @@ if sys.platform.startswith('win'):
     from .windows import WindowsDataProtectionAgent
 elif sys.platform.startswith('darwin'):
     from .osx import Keychain
+else:
+    from .unix import LibSecret
 
 def _mkdir_p(path):
     """Creates a directory, and any necessary parents.
@@ -168,3 +170,19 @@ class OSXTokenCache(FileTokenCache):
             locker.set_generic_password(self._service_name, self._account_name, contents)
             with open(self._cache_location, "w+") as handle:
                 handle.write('{} {}'.format(os.getpid(), sys.argv[0]))
+
+
+class UnixTokenCache(FileTokenCache):
+    """A SerializableTokenCache implementation which uses native libsecret functions to protect
+    your tokens.
+    """
+
+    def __init__(self, **kwargs):
+        super(UnixTokenCache, self).__init__(**kwargs)
+        self._current
+
+    def _read(self):
+        return self._current
+
+    def _write(self, contents):
+        self._current = contents
